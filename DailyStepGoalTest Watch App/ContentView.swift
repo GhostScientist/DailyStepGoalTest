@@ -8,15 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+    @StateObject private var healthManager = HealthManager()
+
+        var body: some View {
+            VStack {
+                Text("Steps Today")
+                    .font(.headline)
+                Text("\(healthManager.steps)")
+                    .font(.largeTitle)
+                Button("Update Steps") {
+                    healthManager.fetchTodaySteps()
+                }
+            }
+            .onAppear(perform: {
+                healthManager.requestAuthorization()
+            })
         }
-        .padding()
-    }
 }
 
 #Preview {
